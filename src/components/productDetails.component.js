@@ -1,20 +1,33 @@
 import React from 'react';
-import {BrowserRouter,Switch,Route,Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
-export class ProductDetails extends React.Component{
-    render(){
-        console.log(this.props.location.query);
-      return (
-        <div className="productCard">
-            <img src={`${this.props.location.query.imageUrl}`} alt=""/>
-            <p>{this.props.location.query.name}</p>
-            <p>{this.props.location.query.info}</p>
-            <p>{`Price: ${this.props.location.query.price}`}</p>
-            <p>{`Amount: ${this.props.location.query.amount}`}</p>
-            <Link to='/product'>Go Back</Link>
-        </div>
-      )
+export class ProductDetails extends React.Component {
+  constructor(props) {
+    super(props);
+    console.log(props);
+    this.state = {
+      product: props.location.query.product,
+      updateCallback: props.location.query.updateCallback
     }
   }
+  update = () =>{
+
+  }
+  render() {
+    console.log(this.props.location.query);
+    return (
+      <div className="productCard">
+        <img src={`${this.state.product.image}`} alt="" />
+        <p>{this.state.product.name}</p>
+        <p>{this.state.product.info}</p>
+        <p>{`Price: ${this.state.product.price}`}</p>
+        <p>{`Amount: ${this.state.product.amount}`}</p>
+
+        <Link to={{pathname:`${this.props.location.pathname}/edit`, query:{onUpdateProduct:this.state.updateCallback,product:this.state.product}}}>Update</Link>
+        <Link to='/product'>Go Back</Link>
+      </div>
+    )
+  }
+}
 
 

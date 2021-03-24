@@ -1,37 +1,71 @@
+import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
 
 import React from 'react';
 
-export class CreateProductForm extends React.Component{
-    render(){
-      return (
-        <form>
-            <h2>Create New Product</h2>
-            <div className="">
-                <div className="form__item">
-                    <label htmlFor="productnameInput">Name:</label>
-                    <input type="text" id='productnameInput'/>
-                </div>
-                <div className="form__item">
-                    <label htmlFor="productInfoInput">Info:</label>
-                    <input type="text" id='productInfoInput'/>
-                </div>
-                <div className="form__item">
-                    <label htmlFor="productPriceInput">Price:</label>
-                    <input type='number' id='productPriceInput'/>
-                </div>
-                <div className="form__item">
-                    <label htmlFor="productAmountInput">Amount:</label>
-                    <input type="number" id='productAmountInput'/>
-                </div>
-                <div className="form__item">
-                    <label htmlFor="productImageUrlInput">Image Url:</label>
-                    <input type="text" id='productImageUrlInput'/>
-                </div>
-            </div>
-
-        </form>
-      )
+export class CreateProductForm extends React.Component {
+    constructor(props) {
+        super(props);
+        const temp = this.props.location.query.product
+        console.log(this.props);
+        this.state = {
+            newProduct: {
+                id: temp.id || -1,
+                name: temp.name || '',
+                info: temp.info || '',
+                price: temp.price || '',
+                amount: temp.amount || '',
+                image: temp.image || ''
+            }
+        }
     }
-  }
+
+    handleSubmit = (event) => {
+        if(this.props.location.query.onClick) 
+            this.props.location.query.onClick(this.state.newProduct);
+        else if (this.props.location.query.onUpdateProduct){
+            this.props.location.query.onUpdateProduct(this.state.newProduct);
+        }
+    }
+
+    onChangeInput = (event) => {
+        const obj = this.state.newProduct;
+        obj[event.target.id] = event.target.value;
+        this.setState({newProduct:obj});
+    }
+
+    render() {
+        return (
+            <form>
+                <h2>Create New Product</h2>
+                <div className="">
+                    <div className="form__item">
+                        <label htmlFor="name">Name:</label>
+                        <input onChange={(this.onChangeInput)} value={this.state.newProduct.name} type="text" id='name' />
+                    </div>
+                    <div className="form__item">
+                        <label htmlFor="info">Info:</label>
+                        <input onChange={(this.onChangeInput)} value={this.state.newProduct.info} type="text" id='info' />
+                    </div>
+                    <div className="form__item">
+                        <label htmlFor="price">Price:</label>
+                        <input onChange={(this.onChangeInput)} value={this.state.newProduct.price} type='number' id='price' />
+                    </div>
+                    <div className="form__item">
+                        <label htmlFor="amount">Amount:</label>
+                        <input onChange={(this.onChangeInput)} value={this.state.newProduct.amount} type="number" id='amount' />
+                    </div>
+                    <div className="form__item">
+                        <label htmlFor="imageUrl">Image Url:</label>
+                        <input onChange={(this.onChangeInput)} value={this.state.newProduct.image} type="text" id='image' />
+                    </div>
+                </div>
+
+                {/* <button onClick={this.handleSubmit}>submit</button> */}
+                <Link onClick={this.handleSubmit} to={`/product`}>submit</Link>
+
+            </form>
+        )
+    }
+}
 
 
