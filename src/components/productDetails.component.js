@@ -7,7 +7,8 @@ export class ProductDetails extends React.Component {
     console.log(props);
     this.state = {
       product: props.location.query.product,
-      updateCallback: props.location.query.updateCallback
+      updateCallback: props.location.query.updateCallback,
+      deleteCallback: props.location.query.deleteProduct
     }
   }
   update = () =>{
@@ -22,7 +23,8 @@ export class ProductDetails extends React.Component {
         <p>{this.state.product.info}</p>
         <p>{`Price: ${this.state.product.price}`}</p>
         <p>{`Amount: ${this.state.product.amount}`}</p>
-
+        
+        <Link onClick={() => this.state.deleteCallback(this.state.product.id)} to={{pathname:`/product`}}>Delete</Link>
         <Link to={{pathname:`${this.props.location.pathname}/edit`, query:{onUpdateProduct:this.state.updateCallback,product:this.state.product}}}>Update</Link>
         <Link to='/product'>Go Back</Link>
       </div>

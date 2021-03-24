@@ -14,9 +14,9 @@ function App() {
           <Switch>
             <Route path="/" exact component={HomePage} />
             <Route path="/product" exact component={ProductsList} />
-            <Route path="/product/:id" exact component={ProductDetails} />
             <Route path="/product/:id/edit" exact component={CreateProductForm} />
             <Route path="/product/new" exact component={CreateProductForm} />
+            <Route path="/product/:id" exact component={ProductDetails} />
             <Route component={NotFoundPage} />
           </Switch>
         </BrowserRouter>

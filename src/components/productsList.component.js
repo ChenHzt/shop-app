@@ -39,6 +39,13 @@ export class ProductsList extends React.Component{
         this.setState({products:stateProducts});
     }
 
+    deleteProduct = async (productId) =>{
+        console.log(productId);
+        const response = await API.delete(`product/${productId}`);
+        const stateProducts = this.state.products;
+        stateProducts.delete(response.data.id);
+        this.setState({products:stateProducts});
+    }
 
     render(){
         console.log(this.state);
@@ -46,14 +53,14 @@ export class ProductsList extends React.Component{
       return (
         <div className="productsList">
             {Array.from(this.state.products.values()).map((product,index) => 
-            <Link key={product.id} to={{pathname: `${this.props.location.pathname}/${product.id}`, query: {product,updateCallback:this.updateProduct}}} >
+            <Link key={product.id} to={{pathname: `${this.props.location.pathname}/${product.id}`, query: {product,updateCallback:this.updateProduct,deleteProduct:this.deleteProduct}}} >
                 <div className="productCard">
                     <img className="productCard__image" src={myImg} alt={product.name}/>
                     <p className="productCard__title">{product.name}</p>
                     {product.amount > 0 ? <p className='text--green productCard__stock'>In Stock</p> : <p className='text--red productCard__stock'>Out Of Stock</p>}
                 </div>
             </Link>)}
-            <Link to={{pathname: `${this.props.location.pathname}/new`, query:{onClick:this.createNewProductCallback}}}>create new product</Link>
+            <Link to={{pathname: `${this.props.location.pathname}/new`, query:{createNewProduct:this.createNewProductCallback}}}>create new product</Link>
         </div>
       )
     }

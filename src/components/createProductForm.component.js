@@ -7,21 +7,31 @@ export class CreateProductForm extends React.Component {
         super(props);
         const temp = this.props.location.query.product
         console.log(this.props);
-        this.state = {
+        if(temp)
+            this.state = {
+                newProduct: {
+                    id: temp.id || -1,
+                    name: temp.name || '',
+                    info: temp.info || '',
+                    price: temp.price || '',
+                    amount: temp.amount || '',
+                    image: temp.image || ''
+                }
+            }
+        else this.state = {
             newProduct: {
-                id: temp.id || -1,
-                name: temp.name || '',
-                info: temp.info || '',
-                price: temp.price || '',
-                amount: temp.amount || '',
-                image: temp.image || ''
+                name:  '',
+                info:  '',
+                price:  '',
+                amount: '',
+                image: ''
             }
         }
     }
 
     handleSubmit = (event) => {
-        if(this.props.location.query.onClick) 
-            this.props.location.query.onClick(this.state.newProduct);
+        if(this.props.location.query.createNewProduct) 
+            this.props.location.query.createNewProduct(this.state.newProduct);
         else if (this.props.location.query.onUpdateProduct){
             this.props.location.query.onUpdateProduct(this.state.newProduct);
         }
