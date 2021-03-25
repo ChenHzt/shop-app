@@ -7,17 +7,15 @@ export class ProductDetails extends React.Component {
     console.log(props);
     this.state = {
       product: props.location.query.product,
-      updateCallback: props.location.query.updateCallback,
+      updateCallback: props.location.query.updateProduct,
       deleteCallback: props.location.query.deleteProduct
     }
   }
-  update = () =>{
 
-  }
   render() {
     console.log(this.props.location.query);
     return (
-      <div className="productCard">
+      <div className="productDetails">
         <img src={`${this.state.product.image}`} alt="" />
         <p>{this.state.product.name}</p>
         <p>{this.state.product.info}</p>
@@ -25,7 +23,7 @@ export class ProductDetails extends React.Component {
         <p>{`Amount: ${this.state.product.amount}`}</p>
         
         <Link onClick={() => this.state.deleteCallback(this.state.product.id)} to={{pathname:`/product`}}>Delete</Link>
-        <Link to={{pathname:`${this.props.location.pathname}/edit`, query:{onUpdateProduct:this.state.updateCallback,product:this.state.product}}}>Update</Link>
+        <Link to={{pathname:`${this.props.location.pathname}/edit`, query:{mode:'update',updateProduct:this.state.updateCallback,product:this.state.product}}}>Update</Link>
         <Link to='/product'>Go Back</Link>
       </div>
     )
